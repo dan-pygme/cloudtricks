@@ -74,6 +74,8 @@
             text-decoration: none;
             transition: all 0.3s ease;
             font-size: 1.1rem;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-primary {
@@ -143,24 +145,72 @@
             margin-bottom: 4rem;
         }
 
-        .use-cases h2 {
-            text-align: center;
-            margin-bottom: 3rem;
+        /* POPUP MODAL STYLES */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            text-align: left;
+            color: var(--dark);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
             font-size: 2rem;
+            color: #64748b;
+            cursor: pointer;
         }
 
-        .use-case-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
+        .close-btn:hover { color: var(--dark); }
+
+        .form-group {
+            margin-bottom: 1.25rem;
         }
 
-        .use-case-item {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--secondary);
+        .form-group label {
+            display: block;
             font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: 2px solid var(--secondary);
         }
 
         footer {
@@ -185,7 +235,7 @@
         <p class="subtitle">Secure the ultimate brand identity for your cloud platform, SaaS startup, DevOps toolkit, or cyber-security agency.</p>
         <div class="cta-container">
             <a href="#" class="btn btn-primary">Buy It Now Safely</a>
-            <a href="#" class="btn btn-secondary">Make An Offer</a>
+            <button class="btn btn-secondary" onclick="openModal()">Make An Offer</button>
         </div>
     </header>
 
@@ -219,14 +269,68 @@
             <h2>Don't let a competitor buy it first.</h2>
             <p style="margin-bottom: 2rem; color: #64748b;">Secure digital real estate is a one-time purchase that pays dividends forever.</p>
             <div class="cta-container">
-                <a href="#" class="btn btn-primary" style="padding: 1.25rem 2.5rem; font-size: 1.2rem;">Acquire CloudTricks.com</a>
+                <button class="btn btn-primary" style="padding: 1.25rem 2.5rem; font-size: 1.2rem;" onclick="openModal()">Acquire CloudTricks.com</button>
             </div>
+        </div>
+    </div>
+
+    <div id="offerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 style="margin-bottom: 0.5rem; color: var(--primary);">Submit Your Offer</h2>
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">Enter your contact details and offer below. The domain owner will review and respond shortly.</p>
+            
+            <form action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="bf01bc65-6008-4b55-bfa5-49fba1bb1903">
+                <input type="hidden" name="subject" value="New Domain Offer for CloudTricks.com">
+                
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="john@company.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="offer">Your Offer (USD)</label>
+                    <input type="text" id="offer" name="offer_amount" class="form-control" placeholder="$2,500" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Comments / Message (Optional)</label>
+                    <textarea id="message" name="message" class="form-control" style="height: 80px;" placeholder="Any specific terms or questions..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">Submit Secured Offer</button>
+            </form>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2026 CloudTricks.com. All Rights Reserved. Secure transaction guaranteed via approved registrar broker.</p>
     </footer>
+
+    <script>
+        const modal = document.getElementById("offerModal");
+
+        function openModal() {
+            modal.style.display = "flex";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // Close the modal if the user clicks anywhere outside of the form box
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 </html>
